@@ -2,6 +2,7 @@ export type ExamStatus = 'scheduled' | 'active' | 'ended'
 
 export type Exam = {
   id: string
+  teacherId: string
   title: string
   status: ExamStatus
   durationMinutes: number

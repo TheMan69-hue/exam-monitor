@@ -7,6 +7,7 @@ import { INCIDENT_TYPE_LABELS } from '@/lib/labels'
 import { formatDateTime } from '@/lib/format'
 import { AppHeader } from '@/components/app-header'
 import { StatusBadge } from '@/components/status-badge'
+import { SourceBadge } from '@/components/source-badge'
 import { IncidentActions } from '@/components/incident-actions'
 
 export default async function IncidentDetailPage({
@@ -40,7 +41,15 @@ export default async function IncidentDetailPage({
             {INCIDENT_TYPE_LABELS[incident.type]}
           </h1>
           <StatusBadge status={incident.status} />
+          <SourceBadge source={incident.source} />
         </div>
+
+        {incident.source === 'simulated' && (
+          <p className="rounded border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+            This incident was produced by simulation mode for testing. It was
+            not detected by the AI models.
+          </p>
+        )}
 
         <section className="space-y-2 rounded-lg border bg-white p-4 text-sm text-gray-800">
           <h2 className="text-base font-medium text-gray-900">Summary</h2>
