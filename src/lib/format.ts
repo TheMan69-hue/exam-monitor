@@ -8,3 +8,17 @@ export function formatDateTime(iso: string): string {
     timeStyle: 'short',
   })
 }
+
+export function formatTime(iso: string): string {
+  return new Date(iso).toLocaleTimeString('en-US', {
+    timeZone: DISPLAY_TIME_ZONE,
+    timeStyle: 'short',
+  })
+}
+
+// Compares calendar days in the display time zone.
+export function isToday(iso: string): boolean {
+  const day = (date: Date) =>
+    date.toLocaleDateString('en-CA', { timeZone: DISPLAY_TIME_ZONE })
+  return day(new Date(iso)) === day(new Date())
+}

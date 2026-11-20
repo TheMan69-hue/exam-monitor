@@ -16,7 +16,7 @@ function ActionButton({
     <form action={setIncidentStatus}>
       <input type="hidden" name="incidentId" value={incidentId} />
       <input type="hidden" name="status" value={status} />
-      <button type="submit" className={`rounded px-4 py-2 text-sm ${className}`}>
+      <button type="submit" className={`btn ${className}`}>
         {label}
       </button>
     </form>
@@ -38,13 +38,13 @@ export function IncidentActions({
             incidentId={incidentId}
             status="reviewed"
             label="Mark as reviewed"
-            className="bg-green-600 text-white hover:bg-green-700"
+            className="btn-primary"
           />
           <ActionButton
             incidentId={incidentId}
             status="dismissed"
             label="Dismiss"
-            className="bg-gray-700 text-white hover:bg-gray-800"
+            className="btn-ghost"
           />
         </>
       ) : (
@@ -52,7 +52,7 @@ export function IncidentActions({
           incidentId={incidentId}
           status="pending"
           label="Reopen"
-          className="border border-gray-300 bg-white text-gray-800 hover:bg-gray-100"
+          className="btn-ghost"
         />
       )}
     </div>

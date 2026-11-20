@@ -23,9 +23,9 @@ const CONNECTION_TEXT: Record<Connection, string> = {
 }
 
 const CONNECTION_DOT: Record<Connection, string> = {
-  connecting: 'bg-gray-400',
-  connected: 'bg-green-500',
-  offline: 'bg-red-500',
+  connecting: 'bg-mint-mist',
+  connected: 'bg-sage',
+  offline: 'bg-alert',
 }
 
 export function IncidentLiveUpdates() {
@@ -127,7 +127,7 @@ export function IncidentLiveUpdates() {
       {notice && (
         <div
           role="status"
-          className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-900"
+          className="notice flex flex-wrap items-center justify-between gap-3 !p-4"
         >
           <p>
             <span className="font-semibold">
@@ -143,14 +143,14 @@ export function IncidentLiveUpdates() {
           <button
             type="button"
             onClick={() => setNotice(null)}
-            className="rounded border border-amber-400 bg-white px-3 py-1.5 hover:bg-amber-100"
+            className="btn btn-ghost btn-sm"
           >
             Dismiss
           </button>
         </div>
       )}
 
-      <p role="status" className="flex items-center gap-2 text-xs text-gray-600">
+      <p role="status" className="flex items-center gap-2 font-mono text-[13px] uppercase tracking-[0.04em] text-pine-shadow">
         <span
           aria-hidden="true"
           className={`inline-block h-2 w-2 rounded-full ${CONNECTION_DOT[connection]}`}

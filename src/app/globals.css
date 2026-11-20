@@ -1,20 +1,332 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f9fafb;
-  --foreground: #171717;
+/* Design tokens: "User Interviews" research-journal system.
+   Flat color layering, pill buttons, serif headlines, mono eyebrows. */
+@theme {
+  --color-deep-teal: #1c5d5f;
+  --color-pine-shadow: #0e4749;
+  --color-sage: #65b8a2;
+  --color-lake-teal: #2a7779;
+  --color-forest-floor: #156152;
+  --color-ink-navy: #16325a;
+  --color-dusty-rose: #d6aec1;
+  --color-mint-mist: #a2cbcd;
+  --color-sea-foam: #cae1e2;
+  --color-paper-white: #f2f8f7;
+  --color-card-mint: #e4f0f1;
+  --color-blush-sand: #f2e8e2;
+  --color-charcoal-navy: #283338;
+  --color-slate: #333333;
+  --color-soft-black: #1a1a1a;
+  --color-illustration-ink: #231e21;
+  /* Not in the source palette: the system has no error color, but form
+     errors need one that reads as an error. A muted brick keeps the tone. */
+  --color-alert: #9b2c3d;
+
+  --radius-card: 12px;
+  --radius-button: 48px;
+  --radius-nav: 88px;
+  --radius-pill: 1000px;
 }
 
+/* Substitutes for Sofia Pro / P22 Mackinac Pro / IBM Plex Mono (see layout.tsx). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sofia-pro), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-mackinac), Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Menlo, Consolas, monospace;
 }
 
+@layer base {
+  html {
+    background: var(--color-paper-white);
+  }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    background: var(--color-paper-white);
+    color: var(--color-charcoal-navy);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-charcoal-navy);
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 44px);
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 1.33;
+  }
+
+  h3 {
+    font-weight: 500;
+    color: var(--color-charcoal-navy);
+  }
+
+  a {
+    color: var(--color-pine-shadow);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-deep-teal);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* ---------- Buttons: pill geometry, three colors only ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-button);
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.43;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .btn-sm {
+    padding: 8px 16px;
+  }
+
+  .btn-primary {
+    background: var(--color-deep-teal);
+    color: #fff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--color-forest-floor);
+  }
+
+  .btn-navy {
+    background: var(--color-ink-navy);
+    color: #fff;
+  }
+
+  .btn-navy:hover:not(:disabled) {
+    background: #0f2442;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--color-pine-shadow);
+    color: var(--color-pine-shadow);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: var(--color-card-mint);
+  }
+
+  /* ---------- Surfaces: flat color, hairline border, no shadows ---------- */
+  .card {
+    background: var(--color-card-mint);
+    border: 1px solid var(--color-sea-foam);
+    border-radius: var(--radius-card);
+    padding: 24px;
+  }
+
+  .card-blush {
+    background: var(--color-blush-sand);
+    border-color: #e6d6cc;
+  }
+
+  /* ---------- Section eyebrow: mono, uppercase, tracked, dot prefix ---------- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-pine-shadow);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dot, var(--color-deep-teal));
+  }
+
+  /* ---------- Forms ---------- */
+  .label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-charcoal-navy);
+  }
+
+  .input {
+    width: 100%;
+    border: 1px solid var(--color-mint-mist);
+    border-radius: var(--radius-card);
+    background: #fff;
+    padding: 10px 14px;
+    font-size: 16px;
+    color: var(--color-soft-black);
+  }
+
+  .input:focus {
+    outline: none;
+    border-color: var(--color-deep-teal);
+    box-shadow: 0 0 0 3px var(--color-sea-foam);
+  }
+
+  /* ---------- Notices ---------- */
+  .notice {
+    border: 1px solid var(--color-dusty-rose);
+    border-radius: var(--radius-card);
+    background: var(--color-blush-sand);
+    padding: 12px 16px;
+    font-size: 14px;
+    color: var(--color-charcoal-navy);
+  }
+
+  .notice-alert {
+    border-color: var(--color-alert);
+    color: var(--color-alert);
+  }
+
+  /* ---------- Badges ---------- */
+  .badge {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    padding: 2px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  /* ---------- Checkmark list ---------- */
+  .checklist {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+  }
+
+  .checklist li {
+    display: grid;
+    grid-template-columns: 1.5em 1fr;
+    align-items: start;
+  }
+
+  .checklist li::before {
+    content: "✓";
+    font-weight: 700;
+    color: var(--color-deep-teal);
+  }
+
+  /* ---------- Layout ---------- */
+  .page {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 24px 88px;
+  }
+}
+
+@layer components {
+  /* ---------- Filter chips ---------- */
+  .chip {
+    border: 1px solid var(--color-mint-mist);
+    border-radius: var(--radius-pill);
+    background: var(--color-card-mint);
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-charcoal-navy);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .chip:hover {
+    background: var(--color-sea-foam);
+  }
+
+  .chip[aria-pressed="true"] {
+    background: var(--color-deep-teal);
+    border-color: var(--color-deep-teal);
+    color: #fff;
+  }
+
+  /* ---------- Subject accent stripe ---------- */
+  .card-accent {
+    border-top: 4px solid var(--accent, var(--color-sage));
+  }
+
+  /* ---------- Stat strip ---------- */
+  .stat-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 32px;
+    border: 1px solid var(--color-card-mint);
+    border-radius: var(--radius-card);
+    padding: 20px 24px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Toast ---------- */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    z-index: 50;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--color-mint-mist);
+    border-radius: var(--radius-pill);
+    background: var(--color-card-mint);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-pine-shadow);
+    animation: toast-in 0.2s ease-out;
+  }
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px);
+    }
+  }
+}
+
+@layer components {
+  /* Slim scrollbars so inner scroll areas stay quiet. */
+  .scroll-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-mint-mist) transparent;
+  }
 }

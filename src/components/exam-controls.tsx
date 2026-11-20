@@ -4,9 +4,11 @@ import type { ExamStatus } from '@/types'
 export function ExamControls({
   examId,
   status,
+  returnTo,
 }: {
   examId: string
   status: ExamStatus
+  returnTo: string
 }) {
   // Ended examinations cannot be restarted.
   if (status === 'ended') return null
@@ -16,6 +18,7 @@ export function ExamControls({
   return (
     <form action={setExamStatus}>
       <input type="hidden" name="examId" value={examId} />
+      <input type="hidden" name="return_to" value={returnTo} />
       <input
         type="hidden"
         name="status"
@@ -23,11 +26,7 @@ export function ExamControls({
       />
       <button
         type="submit"
-        className={`rounded px-4 py-2 text-sm text-white ${
-          isScheduled
-            ? 'bg-green-600 hover:bg-green-700'
-            : 'bg-gray-700 hover:bg-gray-800'
-        }`}
+        className={`btn ${isScheduled ? 'btn-primary' : 'btn-navy'}`}
       >
         {isScheduled ? 'Start exam' : 'End exam'}
       </button>

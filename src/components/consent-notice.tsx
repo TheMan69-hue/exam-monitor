@@ -1,50 +1,74 @@
+const TOPICS = [
+  {
+    title: 'How this exam is monitored',
+    body: (
+      <>
+        While you take this exam, your webcam is used to estimate where your
+        head and eyes are pointed. The system looks for patterns such as
+        repeatedly turning your head to the side or repeatedly looking away from
+        your screen.
+      </>
+    ),
+  },
+  {
+    title: "What is and isn't saved",
+    body: (
+      <>
+        Your webcam video is not recorded, and no photos or screenshots are
+        taken or saved. If the system notices a pattern, it saves a short note
+        for your teacher: the time, the type of pattern, and the estimated head
+        and eye movement readings.
+      </>
+    ),
+  },
+  {
+    title: 'What a flag means',
+    body: (
+      <>
+        A flag means <em>possible suspicious behavior</em>. It is not a finding
+        that you did anything wrong. Looking away briefly to think or stretch is
+        normal. Your teacher reviews every flag and decides what, if anything, it
+        means. No penalty is applied automatically.
+      </>
+    ),
+  },
+]
+
 export function ConsentNotice() {
   return (
-    <section className="space-y-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-gray-800">
-      <h2 className="text-base font-semibold text-gray-900">
-        Before you start: please read
-      </h2>
-
-      <div className="space-y-1">
-        <h3 className="font-medium">How this exam is monitored</h3>
-        <p>
-          While you take this exam, your webcam is used to estimate where your
-          head and eyes are pointed. The system looks for patterns such as
-          repeatedly turning your head to the side or repeatedly looking away
-          from your screen.
-        </p>
+    <section className="card card-blush space-y-6 text-sm">
+      <div className="space-y-2">
+        <span
+          className="eyebrow"
+          style={{ '--dot': '#d6aec1' } as React.CSSProperties}
+        >
+          Step 2 · Please read
+        </span>
+        <h2>Before you start</h2>
       </div>
 
-      <div className="space-y-1">
-        <h3 className="font-medium">What is and isn&apos;t saved</h3>
-        <p>
-          Your webcam video is not recorded, and no photos or screenshots are
-          taken or saved. If the system notices a pattern, it saves a short note
-          for your teacher: the time, the type of pattern, and the estimated head
-          and eye movement readings.
-        </p>
-      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {TOPICS.map((topic) => (
+          <div
+            key={topic.title}
+            className="space-y-2 rounded-card border border-[#e6d6cc] bg-paper-white p-4"
+          >
+            <h3 className="text-base">{topic.title}</h3>
+            <p>{topic.body}</p>
+          </div>
+        ))}
 
-      <div className="space-y-1">
-        <h3 className="font-medium">What a flag means</h3>
-        <p>
-          A flag means <em>possible suspicious behavior</em>. It is not a finding
-          that you did anything wrong. Looking away briefly to think or stretch
-          is normal. Your teacher reviews every flag and decides what, if
-          anything, it means. No penalty is applied automatically.
-        </p>
-      </div>
-
-      <div className="space-y-1">
-        <h3 className="font-medium">What you should do</h3>
-        <ul className="list-disc space-y-1 pl-5">
-          <li>
-            Sit where your face is clearly visible to the webcam, with decent
-            lighting.
-          </li>
-          <li>Keep your webcam enabled while monitoring is active.</li>
-          <li>Ask your teacher if you have any questions before you begin.</li>
-        </ul>
+        <div className="space-y-2 rounded-card border border-[#e6d6cc] bg-paper-white p-4">
+          <h3 className="text-base">What you should do</h3>
+          <ul className="checklist">
+            <li>
+              Sit where your face is clearly visible to the webcam, with decent
+              lighting.
+            </li>
+            <li>Keep your webcam enabled while monitoring is active.</li>
+            <li>Ask your teacher if you have any questions before you begin.</li>
+          </ul>
+        </div>
       </div>
 
       <p className="font-medium">

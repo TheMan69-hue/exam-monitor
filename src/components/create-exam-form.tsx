@@ -1,18 +1,22 @@
 import { createExam } from '@/app/actions/exams'
 
-export function CreateExamForm() {
+export function CreateExamForm({
+  subjects,
+  defaultSubject,
+  returnTo,
+}: {
+  subjects: string[]
+  defaultSubject?: string
+  returnTo: string
+}) {
   return (
-    <form
-      action={createExam}
-      className="space-y-3 rounded-lg border bg-white p-4"
-    >
-      <h3 className="text-base font-medium text-gray-900">
-        Create an examination
-      </h3>
+    <form action={createExam} className="card space-y-4">
+      <span className="eyebrow">New examination</span>
+      <input type="hidden" name="return_to" value={returnTo} />
 
-      <div className="flex flex-wrap items-end gap-3">
-        <div className="min-w-[200px] flex-1 space-y-1">
-          <label htmlFor="title" className="text-sm text-gray-700">
+      <div className="flex flex-wrap items-end gap-4">
+        <div className="min-w-[200px] flex-1 space-y-1.5">
+          <label htmlFor="title" className="label">
             Title
           </label>
           <input
@@ -21,12 +25,34 @@ export function CreateExamForm() {
             type="text"
             required
             maxLength={120}
-            className="w-full rounded border border-gray-300 p-2 text-gray-900"
+            className="input"
           />
         </div>
 
-        <div className="w-40 space-y-1">
-          <label htmlFor="duration" className="text-sm text-gray-700">
+        <div className="w-52 space-y-1.5">
+          <label htmlFor="subject" className="label">
+            Subject
+          </label>
+          <input
+            id="subject"
+            name="subject"
+            type="text"
+            required
+            maxLength={60}
+            list="subject-options"
+            defaultValue={defaultSubject}
+            placeholder="e.g. Mathematics"
+            className="input"
+          />
+          <datalist id="subject-options">
+            {subjects.map((subject) => (
+              <option key={subject} value={subject} />
+            ))}
+          </datalist>
+        </div>
+
+        <div className="w-44 space-y-1.5">
+          <label htmlFor="duration" className="label">
             Duration (minutes)
           </label>
           <input
@@ -38,19 +64,16 @@ export function CreateExamForm() {
             max={600}
             step={1}
             defaultValue={60}
-            className="w-full rounded border border-gray-300 p-2 text-gray-900"
+            className="input"
           />
         </div>
 
-        <button
-          type="submit"
-          className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-        >
+        <button type="submit" className="btn btn-primary">
           Create
         </button>
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs">
         New examinations start as Scheduled. Press Start when students may join.
       </p>
     </form>
