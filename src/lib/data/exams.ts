@@ -6,13 +6,14 @@ type ExamRow = {
   id: string
   teacher_id: string
   title: string
+  subject: string
   duration_minutes: number
   instructions: string[] | null
   status: string
 }
 
 const EXAM_COLUMNS =
-  'id, teacher_id, title, duration_minutes, instructions, status'
+  'id, teacher_id, title, subject, duration_minutes, instructions, status'
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -22,6 +23,7 @@ function toExam(row: ExamRow): Exam {
     id: row.id,
     teacherId: row.teacher_id,
     title: row.title,
+    subject: row.subject,
     status: row.status as ExamStatus,
     durationMinutes: row.duration_minutes,
     instructions: row.instructions ?? [],
@@ -36,6 +38,7 @@ export async function getExams(): Promise<Exam[]> {
   const { data, error } = await supabase
     .from('exams')
     .select(EXAM_COLUMNS)
+    .order('subject', { ascending: true })
     .order('created_at', { ascending: false })
     .order('title', { ascending: true })
 
@@ -63,7 +66,7 @@ export async function getExam(id: string): Promise<Exam | null> {
 
 export async function createExam(
   teacherId: string,
-  input: { title: string; durationMinutes: number }
+  input: { title: string; subject: string; durationMinutes: number }
 ): Promise<Exam> {
   const supabase = await createClient()
 
@@ -72,6 +75,7 @@ export async function createExam(
     .insert({
       teacher_id: teacherId,
       title: input.title,
+      subject: input.subject,
       duration_minutes: input.durationMinutes,
     })
     .select(EXAM_COLUMNS)

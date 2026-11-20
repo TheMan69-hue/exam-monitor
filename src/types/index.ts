@@ -4,6 +4,7 @@ export type Exam = {
   id: string
   teacherId: string
   title: string
+  subject: string
   status: ExamStatus
   durationMinutes: number
   instructions: string[]
